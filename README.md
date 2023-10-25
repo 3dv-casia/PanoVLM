@@ -25,6 +25,10 @@ The following figure shows the pipeline of PanoVLM.
 - [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page)
 - [OpenMVG](https://github.com/openMVG/openMVG)
 
+## Codes
+
+We are currently sorting out the codes. The codes will be released soon.
+
 ## Data Acquisition Device
 
 Our data acquisition device contains the following componets:
@@ -74,6 +78,9 @@ With our data acquisition devices, five different datasets are collected, includ
 | Campus-Large |   7625   |  1000.00  |   Yes   |   Outdoor   |
 
 
+**note**: The origin datasets of Room and Floor are sampled at 10 frames per second. For indoor SfM, the sample rate is too high, so we downsample the datasets to reduce data. 
+
+We are currently sorting out datasets Building, Cmpus-Small and Campus-Large. The download link will be updated soon.
 
 ## Mapping Result
 
