@@ -65,10 +65,10 @@ The following figures show the timestamp cptured by the camera and the schematic
 
 With our data acquisition devices, five different datasets are collected, including two indoor datasets and three outdoor datasets. The following table shows the details of the datasets.
 
-| Dataset      | \#Frames | Length(m) | GT pose | Environment |
-| :-----:      | :------: | :-------: | :-----: | :---------: |
-| Room         |   620    |   28.35   |   No    |   Indoor    |
-| Floor        |   831    |   49.82   |   No    |   Indoor    |
+| Dataset      | \#Frames | Length(m) | GT pose | Environment | Download Link |
+| :-----:      | :------: | :-------: | :-----: | :---------: | :-----------: |
+| Room         |   620    |   28.35   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1EjQnuHemL7kW2ORFc0AnFhIdQqvi32fo/view?usp=sharing) |
+| Floor        |   831    |   49.82   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1--vf2Ekz2B3z_l5all7iZT1rEzSV5v1V/view?usp=sharing) |
 | Building     |   1724   |   482.81  |   No    |   Outdoor   |
 | Campus-Small |   824    |  216.80   |   Yes   |   Outdoor   |
 | Campus-Large |   7625   |  1000.00  |   Yes   |   Outdoor   |
