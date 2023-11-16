@@ -89,3 +89,17 @@ The dense mapping result in Building and Campus-Large datasets.
 ![preview](./images/preview.png)
 
 ![preview-2](./images/preview-2.png)
+
+## Cite
+``` 
+@article{TU2023149,
+title = {PanoVLM: Low-Cost and accurate panoramic vision and LiDAR fused mapping},
+author = {Diantao Tu and Hainan Cui and Shuhan Shen},
+journal = {ISPRS Journal of Photogrammetry and Remote Sensing},
+volume = {206},
+pages = {149-167},
+year = {2023},
+issn = {0924-2716},
+doi = {https://doi.org/10.1016/j.isprsjprs.2023.11.012}
+}
+```
