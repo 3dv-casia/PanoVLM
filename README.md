@@ -19,15 +19,19 @@ The following figure shows the pipeline of PanoVLM.
 
 ## Software Dependencies
 
-- [OpenCV](https://opencv.org/)
-- [PCL](https://pointclouds.org/)
-- [Ceres](http://ceres-solver.org/)
-- [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page)
-- [OpenMVG](https://github.com/openMVG/openMVG)
+- [OpenCV 3.4.0](https://opencv.org/)
+- [PCL 1.10](https://pointclouds.org/)
+- [Ceres 2.0.0](http://ceres-solver.org/)
+- [Eigen 3.4](http://eigen.tuxfamily.org/index.php?title=Main_Page)
+- [Boost 1.71.0](https://www.boost.org/)
+
+Most of the SfM codes are adopted from [openMVG](https://github.com/openMVG/openMVG).
+
+Most of the MVS codes are adopted from [openMVS](https://github.com/cdcseacave/openMVS).
 
 ## Codes
 
-We are currently sorting out the codes. The codes will be released soon.
+For the details of the codes, please refer to the [Tutorial](./Tutorial.md).
 
 ## Data Acquisition Device
 
@@ -71,11 +75,11 @@ With our data acquisition devices, five different datasets are collected, includ
 
 | Dataset      | \#Frames | Length(m) | GT pose | Environment | Download Link |
 | :-----:      | :------: | :-------: | :-----: | :---------: | :-----------: |
-| Room         |   620    |   28.35   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1EjQnuHemL7kW2ORFc0AnFhIdQqvi32fo/view?usp=sharing) |
-| Floor        |   831    |   49.82   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1--vf2Ekz2B3z_l5all7iZT1rEzSV5v1V/view?usp=sharing) |
+| Room         |   454    |   14.22   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1EjQnuHemL7kW2ORFc0AnFhIdQqvi32fo/view?usp=sharing) |
+| Floor        |   1593    |   182.39   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1--vf2Ekz2B3z_l5all7iZT1rEzSV5v1V/view?usp=sharing) |
 | Building     |   1724   |   482.81  |   No    |   Outdoor   |
 | Campus-Small |   824    |  216.80   |   Yes   |   Outdoor   |
-| Campus-Large |   7625   |  1000.00  |   Yes   |   Outdoor   |
+| Campus-Large |   8730   |  3557.63  |   Yes   |   Outdoor   |
 
 
 **note**: The origin datasets of Room and Floor are sampled at 10 frames per second. For indoor SfM, the sample rate is too high, so we downsample the datasets to reduce data. 
