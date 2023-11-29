@@ -1,0 +1,92 @@
+# 图像文件目录
+image_path = /data2/tdt/Floor/images/  
+# 雷达文件目录 
+lidar_path = /data2/tdt/Floor/lidar/    
+# 深度图文件目录，如果这个目录里深度图数量和图像文件数目不符合，那么之后就要更新这个目录里的深度图
+depth_path = /data2/tdt/Floor/depth/ 
+# 保存frame文件的目录，如果这个目录里frame数量和图像文件数目不符，之后要更新这个目录里的文件   
+frame_path = /data2/tdt/Floor/frame/
+# 保存图像匹配对的目录，可以把图像的匹配关系保存在这里，方便下一次使用
+match_pair_path = /data2/tdt/Floor/image_pair/
+# 保存匹配对的目录，这个目录保存的是经过完整的SfM之后，依然保留下来的匹配对，这个匹配对可以用于后面的联合优化 joint optimization
+match_pair_joint_path = /data2/tdt/Floor/image_pair_joint/
+# 保存图像直线目录
+image_line_path = /data2/tdt/Floor/image_line/
+# 保存经过去畸变的点云
+lidar_path_undistort = /data2/tdt/Floor/lidar_undis/
+# 保存MVS深度图路径
+mvs_data_path =/data2/tdt/Floor/mvs/
+# 保存运行结果的目录
+result_path = /data2/tdt/Floor/result/
+# mask路径
+mask_path = /data2/tdt/Floor/mask.jpg
+
+num_threads = 25
+data_gap_time = 0.3
+use_cuda = false
+max_depth = 15
+min_depth = 0
+max_depth_visual = 8
+
+# LiDAR特征提取相关的配置参数
+extraction_method = 3
+max_curvature = 1000
+intersection_angle_threshold = 5
+lidar_segmentation = true
+
+# 图像直线特征提取相关参数
+ncc_threshold = 0
+
+# SIFT 特征提取与匹配相关的配置参数
+root_sift = true
+num_sift = 8096
+sift_match_dist_threshold = 0.65
+sift_match_num_threshold = 30		
+
+# 相机-雷达相对位姿
+time_offset = 0
+T_cl = 0.999877 0 0.0157073 0 0 0.15 0 
+
+# sfm相关参数
+keep_pairs_no_scale = true
+# 旋转平均和平移平均,具体含义参见SfM.h中的定义
+rotation_averaging_method = 1
+translation_averaging_method = 4
+init_translation_DLT = true
+num_iteration_L2IRLS = 5 
+upper_scale_ratio = 1.3  
+lower_scale_ratio = 1.0 
+# 三角化时剔除外点的阈值
+triangulate_angle_threshold = 25
+# 是否对三角化的点进行上色
+colorize_structure = true
+
+# LiDAR-LiDAR残差的设置
+angle_residual = true      
+point_to_line_residual = false
+line_to_line_residual = true
+point_to_plane_residual = true
+point_to_line_dis_threshold = 0.4
+point_to_plane_dis_threshold = 1.0
+lidar_plane_tolerance = 0.01
+normalize_distance = true
+# lidar单独优化时迭代的次数
+num_iteration_lidar = 7
+
+# 联合优化的相关参数
+num_iteration_joint = 5
+neighbor_size_joint = 1
+camera_weight = 1
+lidar_weight = 0.1
+camera_lidar_weight = 25
+
+# MVS参数
+mvs_use_lidar = true
+scale = -2
+ncc_half_window = 3
+ncc_step = 1
+propagate_strategy = 2
+depth_diff_threshold = 0.01
+min_segment = 100
+mvs_use_geometric = true
+keep_lidar_constant = true
