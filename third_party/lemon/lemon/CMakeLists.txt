@@ -1,0 +1,100 @@
+
+CONFIGURE_FILE(
+  ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/config.h
+)
+
+CONFIGURE_FILE(
+  ${CMAKE_CURRENT_SOURCE_DIR}/lemon.pc.in
+  ${CMAKE_CURRENT_BINARY_DIR}/lemon.pc
+  @ONLY
+)
+
+SET(LEMON_SOURCES
+  arg_parser.cc
+  base.cc
+  color.cc
+  lp_base.cc
+  lp_skeleton.cc
+  random.cc
+  bits/windows.cc
+)
+
+#IF(LEMON_HAVE_GLPK)
+#  SET(LEMON_SOURCES ${LEMON_SOURCES} glpk.cc)
+#  INCLUDE_DIRECTORIES(${GLPK_INCLUDE_DIRS})
+#  IF(WIN32)
+#    INSTALL(FILES ${GLPK_BIN_DIR}/glpk.dll DESTINATION bin)
+#    INSTALL(FILES ${GLPK_BIN_DIR}/libltdl3.dll DESTINATION bin)
+#    INSTALL(FILES ${GLPK_BIN_DIR}/zlib1.dll DESTINATION bin)
+#  ENDIF()
+#ENDIF()
+
+#IF(LEMON_HAVE_CPLEX)
+#  SET(LEMON_SOURCES ${LEMON_SOURCES} cplex.cc)
+#  INCLUDE_DIRECTORIES(${ILOG_INCLUDE_DIRS})
+#ENDIF()
+
+IF(LEMON_HAVE_CLP)
+  SET(LEMON_SOURCES ${LEMON_SOURCES} clp.cc)
+  INCLUDE_DIRECTORIES(${COIN_INCLUDE_DIRS})
+ENDIF()
+
+#IF(LEMON_HAVE_CBC)
+#  SET(LEMON_SOURCES ${LEMON_SOURCES} cbc.cc)
+#  INCLUDE_DIRECTORIES(${COIN_INCLUDE_DIRS})
+#ENDIF()
+
+#IF(LEMON_HAVE_SOPLEX)
+#  SET(LEMON_SOURCES ${LEMON_SOURCES} soplex.cc)
+#  INCLUDE_DIRECTORIES(${SOPLEX_INCLUDE_DIRS})
+#ENDIF()
+
+ADD_LIBRARY(openMVG_lemon INTERFACE)
+
+target_compile_definitions(openMVG_lemon INTERFACE -DLEMON_ONLY_TEMPLATES)
+
+target_include_directories(openMVG_lemon INTERFACE
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+  $<INSTALL_INTERFACE:include/openMVG/third_party/lemon>
+  # Configure include path for lemon/config.h
+  $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+  $<INSTALL_INTERFACE:include/openMVG/third_party>)
+
+
+INSTALL(
+  TARGETS openMVG_lemon
+  DESTINATION lib
+  EXPORT openMVG-targets
+)
+
+INSTALL(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  DESTINATION include/openMVG/third_party/lemon
+  COMPONENT headers
+  FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
+)
+
+INSTALL(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h
+  DESTINATION include/openMVG/third_party/lemon
+  COMPONENT headers
+)
+
+#INSTALL(
+#  DIRECTORY . bits concepts
+#  DESTINATION include/lemon
+#  COMPONENT headers
+#  FILES_MATCHING PATTERN "*.h"
+#)
+
+#INSTALL(
+#  FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h
+#  DESTINATION include/openMVG_third_party/lemon
+#  COMPONENT headers
+#)
+
+#INSTALL(
+#  FILES ${CMAKE_CURRENT_BINARY_DIR}/lemon.pc
+#  DESTINATION lib/pkgconfig
+#)
