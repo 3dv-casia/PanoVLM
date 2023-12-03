@@ -21,7 +21,7 @@ All of the configuration files are in `PanoVLM/config/`. You can modify the conf
 Here, we use the Room dataset as an example.
 
 ## 1. Prepare the dataset
-Download the dataset from [here](https://drive.google.com/file/d/1EjQnuHemL7kW2ORFc0AnFhIdQqvi32fo/view?usp=sharing) and unzip it to `path_to_dataset/Room/`.
+Download the dataset from [here](https://drive.google.com/file/d/1HOvOy4WI93J7dQxvZ8ErAX15Qbh5q0ps/view?usp=sharing) and unzip it to `path_to_dataset/Room/`.
 By default, PanoVLM outputs many intermediate results, such as image pairs, image lines, depth maps, etc. Please make sure that the disk space is sufficient (about 20GB for Room).
 
 ## 2. Modify the configuration file 
