@@ -75,8 +75,8 @@ With our data acquisition devices, five different datasets are collected, includ
 
 | Dataset      | \#Frames | Length(m) | GT pose | Environment | Download Link |
 | :-----:      | :------: | :-------: | :-----: | :---------: | :-----------: |
-| Room         |   454    |   14.22   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1EjQnuHemL7kW2ORFc0AnFhIdQqvi32fo/view?usp=sharing) |
-| Floor        |   1593    |   182.39   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1--vf2Ekz2B3z_l5all7iZT1rEzSV5v1V/view?usp=sharing) |
+| Room         |   454    |   14.22   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1HOvOy4WI93J7dQxvZ8ErAX15Qbh5q0ps/view?usp=sharing) |
+| Floor        |   1593    |   182.39   |   No    |   Indoor    | [link](https://drive.google.com/file/d/1UvyMLn_n2fGeiRPSqCttdGJYFajTxMYE/view?usp=sharing) |
 | Building     |   1724   |   482.81  |   No    |   Outdoor   |
 | Campus-Small |   824    |  216.80   |   Yes   |   Outdoor   |
 | Campus-Large |   8730   |  3557.63  |   Yes   |   Outdoor   |
