@@ -48,6 +48,8 @@ public:
     string mask_path;
     // GPS 文件路径（可以为空）
     string gps_path;
+    // 预先计算好的相机位姿（用于单独进行MVS,可以为空）
+    string camera_pose_prior_path;
     // 各种步骤的结果保存的路径
     string sfm_result_path;
     string odo_result_path; 
@@ -161,6 +163,7 @@ public:
         ("result_path", value<string>(&result_path), "result saving folder for sfm result and lidar odometry result")
         ("mask_path", value<string>(&mask_path), "mask path")
         ("gps_path", value<string>(&gps_path), "gps path (optional)")
+        ("camera_pose_prior_path", value<string>(&camera_pose_prior_path), "camera pose prior path (optional)")
         ("num_threads", value<int>(&num_threads), "threads number")
         ("data_gap_time", value<float>(&data_gap_time), "time interval between consecutive data frames")
         ("use_cuda", value<bool>(&use_cuda), "set true to use cuda")

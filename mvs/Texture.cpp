@@ -42,7 +42,7 @@ bool Texture::ColorizeLidarPointCloud(const double min_dist, const double max_di
             continue;
         cv::Mat img_color = frames[i].GetImageColor();
         cv::Mat img_hsv;
-        cv::cvtColor(img_color, img_hsv, CV_BGR2HSV);
+        cv::cvtColor(img_color, img_hsv, cv::COLOR_BGR2HSV);
         pcl::PointCloud<pcl::PointXYZRGB> cloud_colored;
         Equirectangular eq(frames[i].GetImageRows(), frames[i].GetImageCols());
         Eigen::Matrix4d T_cl = frames[i].GetPose().inverse() * lidars[i].GetPose();

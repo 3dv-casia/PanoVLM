@@ -17,7 +17,7 @@ bool PanoramaLineMatcher::VisualizeTrack(const pair<uint32_t, set<pair<uint32_t,
     {
         const uint32_t& image_id = it->first;
         cv::Mat img_gray = image_lines_all[image_id].GetImageGray();
-        cv::cvtColor(img_gray, img_gray, CV_GRAY2BGR);
+        cv::cvtColor(img_gray, img_gray, cv::COLOR_GRAY2BGR);
         for(const uint32_t& line_id : it->second)
             DrawLine(img_gray, image_lines_all[image_id].GetLines()[line_id],  cv::Scalar(0,0,255), 6, true);
         cv::imwrite(path + "/track" + num2str(track_id) + "_" + num2str(image_id) + ".jpg", img_gray);

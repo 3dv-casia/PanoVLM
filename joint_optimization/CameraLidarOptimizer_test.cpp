@@ -92,7 +92,7 @@ void CameraLidarOptimizer::TestTrackAssociate()
     eigen_vector<Eigen::Matrix3d> R_wc_list, R_wc_list_test;
     eigen_vector<Eigen::Vector3d> t_wc_list, t_wc_list_test;
     vector<string> name_list;
-    cv::Mat mask = cv::imread(config.mask_path, CV_LOAD_IMAGE_GRAYSCALE);
+    cv::Mat mask = cv::imread(config.mask_path, cv::IMREAD_GRAYSCALE);
     ReadPoseT(config.sfm_result_path + "/camera_pose_final.txt", true, R_wc_list, t_wc_list, name_list);
     // size_t id = 0;
     for(size_t i = 0; i < frames.size(); i++)

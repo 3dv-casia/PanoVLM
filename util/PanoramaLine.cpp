@@ -16,9 +16,9 @@ PanoramaLine::PanoramaLine():id(-1)
 PanoramaLine::PanoramaLine(const cv::Mat& _img, int _id):id(_id)
 {
     if(_img.channels() == 3)    
-        cv::cvtColor(_img, img_gray, CV_BGR2GRAY);
+        cv::cvtColor(_img, img_gray, cv::COLOR_BGR2GRAY);
     else if(_img.channels() == 4)
-        cv::cvtColor(_img, img_gray, CV_RGBA2GRAY);
+        cv::cvtColor(_img, img_gray, cv::COLOR_RGBA2GRAY);
     else 
         img_gray = _img.clone(); 
     rows = img_gray.rows;
@@ -300,7 +300,7 @@ bool PanoramaLine::FileterByInitLine(int count_threshold, float cover_threshold)
     for(int i = 0; i < lines.size(); i++)
     {
         cv::Mat img_line;
-        cv::cvtColor(img_gray, img_line, CV_GRAY2BGR);
+        cv::cvtColor(img_gray, img_line, cv::COLOR_GRAY2BGR);
         DrawLine(img_line, lines[i], cv::Scalar(0,0,255), 5, true);
         cv::imwrite("final_line-" + num2str(i) + ".jpg", img_line);
         vector<cv::Vec4f> curr_init_lines;
@@ -1160,7 +1160,7 @@ bool PanoramaLine::SetLineMap(int dis_threshold)
     for(int i = 0; i < lines.size(); i++)
     {
         cv::Mat img_line;
-        cv::cvtColor(img_gray, img_line, CV_GRAY2BGR);
+        cv::cvtColor(img_gray, img_line, cv::COLOR_GRAY2BGR);
         DrawLine(img_line, lines[i], cv::Scalar(0,0,255), 5, true);
         cv::imwrite("final_line-" + num2str(i) + ".jpg", img_line);
         vector<cv::Vec4f> curr_init_lines;
@@ -1266,7 +1266,7 @@ float PanoramaLine::ComputeNCC(const cv::Mat& img1, const cv::Mat& img2, const c
 void PanoramaLine::SetImageGray(const cv::Mat& gray)
 {
     if(gray.channels() == 3)
-        cv::cvtColor(gray, img_gray, CV_BGR2GRAY);
+        cv::cvtColor(gray, img_gray, cv::COLOR_BGR2GRAY);
     else 
         img_gray = gray.clone();
 }
@@ -1281,7 +1281,7 @@ const cv::Mat PanoramaLine::GetImageGray() const
     if(!img_gray.empty())
         return img_gray;
     else 
-        return cv::imread(name, CV_LOAD_IMAGE_GRAYSCALE);
+        return cv::imread(name, cv::IMREAD_GRAYSCALE);
 }
 
 const std::vector<cv::Vec4f>& PanoramaLine::GetLines() const

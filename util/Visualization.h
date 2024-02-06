@@ -197,7 +197,7 @@ cv::Mat ProjectLidar2ImageGray(const pcl::PointCloud<T> cloud, const cv::Mat ima
     }
     // 把单通道的灰度图变成三通道的灰度图，这是因为投影的点要用彩色表示，需要三通道
     cv::Mat img_out;
-    cv::cvtColor(image, img_out, CV_GRAY2BGR);
+    cv::cvtColor(image, img_out, cv::COLOR_GRAY2BGR);
     bool high_res = (img_out.rows * img_out.cols > 1280 * 720);
     pcl::PointCloud<T> cloud_trans;
     pcl::transformPointCloud(cloud, cloud_trans, T_cl);
@@ -251,7 +251,7 @@ cv::Mat ProjectLidar2ImageRGB(const pcl::PointCloud<T> cloud, const cv::Mat imag
     if(image.channels() == 3)
         img_out = image.clone();
     else if(image.channels() == 1)
-        cv::cvtColor(image, img_out, CV_GRAY2BGR);
+        cv::cvtColor(image, img_out, cv::COLOR_GRAY2BGR);
     else
     {
         cout << "error : image channel is neither 1 nor 3" << endl;
@@ -319,7 +319,7 @@ cv::Mat ProjectLidar2PanoramaGray(const pcl::PointCloud<T>& cloud, const cv::Mat
     }
     // 把单通道的灰度图变成三通道的灰度图，这是因为投影的点要用彩色表示，需要三通道
     cv::Mat img_out;
-    cv::cvtColor(image, img_out, CV_GRAY2BGR);
+    cv::cvtColor(image, img_out, cv::COLOR_GRAY2BGR);
     bool high_res = (img_out.rows * img_out.cols > 1280 * 720);
     pcl::PointCloud<T> cloud_trans;
     pcl::transformPointCloud(cloud, cloud_trans, T_cl);
@@ -360,7 +360,7 @@ cv::Mat ProjectLidar2PanoramaRGB(const pcl::PointCloud<T>& cloud, const cv::Mat 
     if(image.channels() == 3)
         img_out = image.clone();
     else if(image.channels() == 1)
-        cv::cvtColor(image, img_out, CV_GRAY2BGR);
+        cv::cvtColor(image, img_out, cv::COLOR_GRAY2BGR);
     else
     {
         cout << "error : image channel is neither 1 nor 3" << endl;

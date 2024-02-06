@@ -16,7 +16,7 @@ template <typename T>
 inline T FastAtan2(const T& y, const T& x)
 {
     T ax = std::abs(x), ay = std::abs(y);
-    T a = std::min(ax, ay)/(std::max(ax, ay) + (T)DBL_EPSILON );
+    T a = std::min(ax, ay)/(std::max(ax, ay) + std::numeric_limits<T>::epsilon() );
     T s = a*a;
     T r = ((-0.04432655554792128 * s + 0.1555786518463281) * s - 0.3258083974640975) * s * a + 0.9997878412794807 * a;
     if(ay > ax) 

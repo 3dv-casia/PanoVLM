@@ -5,7 +5,7 @@
 
 
 #include <opencv2/opencv.hpp>
-#include <opencv2/xfeatures2d.hpp>
+#include <opencv2/features2d.hpp>
 #include <iostream>
 #include <vector>
 #include <numeric>

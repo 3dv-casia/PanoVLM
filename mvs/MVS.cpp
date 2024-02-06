@@ -26,7 +26,7 @@ MVS::MVS(const std::vector<Frame>& _frames, const std::vector<Velodyne>& _lidars
                     frames(_frames), config(_config), lidars(_lidars),
                     eq(Equirectangular(frames[0].GetImageRows(), frames[0].GetImageCols()))
 {
-    assert(frames.size() == lidars.size());
+    // assert(frames.size() == lidars.size());
     rng = cv::RNG((unsigned)time(NULL));
     ncc_window_size = 2 * config.ncc_half_window + 1;
     num_texels = Square((ncc_window_size) / config.ncc_step + (config.ncc_step > 1));
@@ -551,7 +551,7 @@ bool MVS::InitDepthNormal(int ref_id, const cv::Mat& mask, bool use_lidar)
         // 没有深度的地方设置为1，然后把这个lidar-mask和随机的深度相乘，那么雷达区域就没有随机深度了
         // 最后再加上雷达深度，就达到了把雷达深度和随机深度结合到一起的目的
         cv::Mat lidar_mask;
-        cv::threshold(frame.depth_map, lidar_mask, 0, 1, CV_THRESH_BINARY_INV);
+        cv::threshold(frame.depth_map, lidar_mask, 0, 1, cv::THRESH_BINARY_INV);
         cv::add(frame.depth_map, depth_random.mul(lidar_mask), frame.depth_map);  
 
         // 把雷达投影的位置设置为固定深度不变

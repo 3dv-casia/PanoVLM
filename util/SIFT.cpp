@@ -25,7 +25,7 @@ bool ExtractSIFT(const cv::Mat& img_gray, vector<cv::KeyPoint>& keypoints,
 {
     if(num_sift <= 0)
         return false;
-    cv::Ptr<cv::xfeatures2d::SIFT> detector = cv::xfeatures2d::SIFT::create(num_sift);
+    cv::Ptr<cv::SIFT> detector = cv::SIFT::create(num_sift);
     detector->detect(img_gray, keypoints, mask);
     return keypoints.size() > 0;
 }
@@ -33,7 +33,7 @@ bool ExtractSIFT(const cv::Mat& img_gray, vector<cv::KeyPoint>& keypoints,
 bool DistributeSIFTQuadtree(const cv::Mat& img_gray, vector<cv::KeyPoint>& keypoints, 
                 const int num_sift, const cv::Mat& mask)
 {
-    cv::Ptr<cv::xfeatures2d::SIFT> detector = cv::xfeatures2d::SIFT::create(num_sift * 1.2);
+    cv::Ptr<cv::SIFT> detector = cv::SIFT::create(num_sift * 1.2);
     detector->detect(img_gray, keypoints, mask);
     
     vector<Cell> cells;
@@ -105,7 +105,7 @@ bool ExtractSIFTQuadtree(const cv::Mat& img_gray, vector<cv::KeyPoint>& keypoint
         cv::Mat sub_image = img_gray.rowRange(row_start, row_end + 1).colRange(col_start, col_end + 1);
         cv::Mat sub_mask = mask.rowRange(row_start, row_end + 1).colRange(col_start, col_end + 1);
         int sub_mask_count = cv::countNonZero(sub_mask);
-        cv::Ptr<cv::xfeatures2d::SIFT> detector = cv::xfeatures2d::SIFT::create(num_sift * (float)sub_mask_count / mask_count);
+        cv::Ptr<cv::SIFT> detector = cv::SIFT::create(num_sift * (float)sub_mask_count / mask_count);
         vector<cv::KeyPoint> sub_key_points;
         detector->detect(sub_image, sub_key_points, sub_mask);
         for(cv::KeyPoint& kpt : sub_key_points)
@@ -120,7 +120,7 @@ bool ExtractSIFTQuadtree(const cv::Mat& img_gray, vector<cv::KeyPoint>& keypoint
 
 bool ComputeSIFTDescriptor(const cv::Mat& img_gray, std::vector<cv::KeyPoint>& keypoints, cv::Mat& descriptor,const bool root_sift)
 {
-    cv::Ptr<cv::xfeatures2d::SIFT> detector = cv::xfeatures2d::SIFT::create(keypoints.size());
+    cv::Ptr<cv::SIFT> detector = cv::SIFT::create(keypoints.size());
     detector->compute(img_gray, keypoints, descriptor);
     if(root_sift)
         RootSIFT(descriptor);

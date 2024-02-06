@@ -43,10 +43,10 @@ link_directories( ${Boost_LIBRARY_DIRS})
 find_package(Ceres REQUIRED)
 include_directories(${Ceres_INCLUDE_DIRS})
 
-find_package(CUDA)
-if(CUDA_FOUND)
-  add_definitions(-DUSE_CUDA)
-endif()
+# find_package(CUDA)
+# if(CUDA_FOUND)
+#   add_definitions(-DUSE_CUDA)
+# endif()
 
 add_subdirectory(third_party)
 

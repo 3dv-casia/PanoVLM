@@ -17,7 +17,7 @@ Frame::Frame(int _rows, int _cols, int _id, const std::string _name):
 
 void Frame::LoadImageGray(const std::string& path)
 {
-    img_gray = cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);
+    img_gray = cv::imread(path, cv::IMREAD_GRAYSCALE);
     if(scale > 0)
         for(int s = scale; s > 0; s--)
             cv::pyrUp(img_gray, img_gray);
@@ -153,7 +153,7 @@ const cv::Mat Frame::GetImageGray() const
 {
     if(!img_gray.empty())
         return img_gray;
-    cv::Mat tmp = cv::imread(name, CV_LOAD_IMAGE_GRAYSCALE);
+    cv::Mat tmp = cv::imread(name, cv::IMREAD_GRAYSCALE);
     if(scale > 0)
         for(int s = scale; s > 0; s--)
             cv::pyrUp(tmp, tmp);

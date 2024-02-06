@@ -37,6 +37,7 @@ int InitLidarPose(const Config& config, map<string, double>& time_spent);
 int JointOptimization(const Config& config, map<string, double>& time_spent);
 int ColorizeLidarMap(const Config& config, map<string, double>& time_spent);
 int JointMVS(const Config& config, map<string, double>& time_spent);
+int DependentMVS(const Config& config, map<string, double>& time_spent);
 
 int main(int argc, char** argv)
 {  
@@ -78,6 +79,10 @@ int main(int argc, char** argv)
     {
         JointMVS(config, time_spent);
     }
+    else if(stage == "dependent_mvs")
+    {
+        DependentMVS(config, time_spent);
+    }
     else
     {
         LOG(ERROR) << "stage error, input stage is " << stage;
@@ -101,8 +106,8 @@ int InitCameraPose(const Config& config, map<string, double>& time_spent)
     cv::Mat mask;
     if(!config.mask_path.empty())
     {
-        mask = cv::imread(config.mask_path, CV_LOAD_IMAGE_GRAYSCALE);
-        cv::threshold(mask, mask, 0.1, 1, CV_THRESH_BINARY);
+        mask = cv::imread(config.mask_path, cv::IMREAD_GRAYSCALE);
+        cv::threshold(mask, mask, 0.1, 1, cv::THRESH_BINARY);
     }
 
     omp_set_num_threads(config.num_threads);
@@ -609,8 +614,8 @@ int JointMVS(const Config& config, map<string, double>& time_spent)
     cv::Mat mvs_mask;
     if(!config.mask_path.empty())
     {
-        mvs_mask = cv::imread(config.mask_path, CV_LOAD_IMAGE_GRAYSCALE);
-        cv::threshold(mvs_mask, mvs_mask, 0.1, 1, CV_THRESH_BINARY);
+        mvs_mask = cv::imread(config.mask_path, cv::IMREAD_GRAYSCALE);
+        cv::threshold(mvs_mask, mvs_mask, 0.1, 1, cv::THRESH_BINARY);
     }
 
     if(!mvs_mask.empty())
@@ -668,6 +673,109 @@ int JointMVS(const Config& config, map<string, double>& time_spent)
 
     /**
      * 9. 融合深度图
+    */
+    t1 = chrono::high_resolution_clock::now();
+    mvs.FuseDepthMaps();
+    t2 = chrono::high_resolution_clock::now();
+    time_spent["MVS.fuse depth map"] = chrono::duration_cast<chrono::duration<double> >(t2 - t1).count();
+
+    return 0;
+}
+
+int DependentMVS(const Config& config, map<string, double>& time_spent)
+{
+    // 两个计时器
+    auto t1 = chrono::high_resolution_clock::now();
+    auto t2 = chrono::high_resolution_clock::now();
+
+    omp_set_num_threads(config.num_threads);
+    if(!boost::filesystem::exists(config.mvs_result_path))
+        boost::filesystem::create_directories(config.mvs_result_path);
+    if(!boost::filesystem::exists(config.mvs_normal_path))
+        boost::filesystem::create_directories(config.mvs_normal_path);
+    if(!boost::filesystem::exists(config.mvs_conf_path))
+        boost::filesystem::create_directories(config.mvs_conf_path);
+    if(!boost::filesystem::exists(config.mvs_depth_path))
+        boost::filesystem::create_directories(config.mvs_depth_path);
+
+    LOG(INFO) << "MVS config : \n"  
+            << "\t \t propagate strategy : " << (config.propagate_strategy == Propagate::SEQUENTIAL ? "sequential" : "checker board") << "\n" 
+            << "\t \t rescale image : " << config.scale << "\n"
+            << "\t \t ncc half window : " << config.ncc_half_window << "\n"  
+            << "\t \t ncc step : " << config.ncc_step << "\n" 
+            << "\t \t min segment size : " << config.min_segment << "\n" 
+            << "\t \t use lidar depth : " << (config.mvs_use_lidar ? "true" : "false") << "\n" 
+            << "\t \t keep lidar depth constant : " << (config.keep_lidar_constant ? "true" : "false") << "\n" 
+            << "\t \t use geometric consistency : " << (config.mvs_use_geometric ? "true" : "false") << "\n" 
+            ;
+
+    // 1. 读取所有的图像并生成frame
+    vector<Frame> frames;
+    vector<string> image_names = IterateFiles(config.image_path, ".jpg");
+    cv::Mat img = cv::imread(image_names[0]);
+    for(int i = 0; i < image_names.size(); i++)
+    {
+        Frame f(img.rows, img.cols, i, image_names[i]);
+        frames.push_back(f);
+    }
+    LoadFramePose(frames, config.camera_pose_prior_path);
+    for(Frame& f : frames)
+        f.SetImageScale(config.scale);
+
+    // 2. 读取所有的LiDAR并生成lidar
+    vector<Velodyne> lidars;
+
+    /**
+     * 3. 对mask进行resize，使其适合图像尺寸
+    */
+    // 读取mask
+    cv::Mat mvs_mask;
+    if(!config.mask_path.empty())
+    {
+        mvs_mask = cv::imread(config.mask_path, cv::IMREAD_GRAYSCALE);
+        cv::threshold(mvs_mask, mvs_mask, 0.1, 1, cv::THRESH_BINARY);
+    }
+
+    if(!mvs_mask.empty())
+    {
+        int s = frames[0].GetImageScale();
+        if(s > 0)
+            for(; s > 0; s--)
+                cv::pyrUp(mvs_mask, mvs_mask);
+        else if(s < 0)
+            for(; s < 0; s++)
+                cv::pyrDown(mvs_mask, mvs_mask);
+        mvs_mask.convertTo(mvs_mask, CV_32F);
+    }
+    else 
+        mvs_mask = cv::Mat::ones(frames[0].GetImageRows(), frames[0].GetImageCols(), CV_32F);
+
+    
+    MVS mvs(frames, lidars, config);
+
+    /**
+     * 4. 对每张图像选择近邻图像
+    */
+    mvs.SelectNeighborViews(5);
+    
+    /**
+     * 5. 计算深度图
+    */
+    t1 = chrono::high_resolution_clock::now();
+    mvs.EstimateDepthMaps(config.propagate_strategy, mvs_mask);
+    t2 = chrono::high_resolution_clock::now();
+    time_spent["MVS.estimate depth map"] = chrono::duration_cast<chrono::duration<double> >(t2 - t1).count();
+
+    /**
+     * 6. 过滤深度图
+    */
+    t1 = chrono::high_resolution_clock::now();
+    mvs.FilterDepthMaps();
+    t2 = chrono::high_resolution_clock::now();
+    time_spent["MVS.filter depth map"] = chrono::duration_cast<chrono::duration<double> >(t2 - t1).count();
+
+    /**
+     * 7. 融合深度图
     */
     t1 = chrono::high_resolution_clock::now();
     mvs.FuseDepthMaps();

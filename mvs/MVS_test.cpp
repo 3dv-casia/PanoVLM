@@ -293,7 +293,7 @@ void MVS::test(const std::set<int>& ids, const cv::Mat& mask)
 cv::Mat MVS::ExtractGroundPixel(const cv::Mat& ground_depth)
 {
     cv::Mat ground_pixel;
-    cv::threshold(ground_depth, ground_pixel, 0.1, 1, CV_THRESH_BINARY);
+    cv::threshold(ground_depth, ground_pixel, 0.1, 1, cv::THRESH_BINARY);
     ground_pixel.convertTo(ground_pixel, CV_8U);
     ground_pixel *= 255;
     

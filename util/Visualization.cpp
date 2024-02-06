@@ -94,7 +94,7 @@ void DrawLine(cv::Mat& img, const cv::Vec4f& line, cv::Scalar color, int thickne
         cv::line(img, segments[i], segments[i+1], color, thickness);
     }
     if(id >= 0)
-        cv::putText(img, num2str(id), (segments[0] + segments[1]) / 2.0, CV_FONT_HERSHEY_PLAIN, 2.5, color, 3);
+        cv::putText(img, num2str(id), (segments[0] + segments[1]) / 2.0, cv::FONT_HERSHEY_PLAIN, 2.5, color, 3);
     return;
 }
 
@@ -127,7 +127,7 @@ cv::Mat DrawLinesOnImage(const cv::Mat& img, const vector<cv::Vec4f>& lines, con
 {
     cv::Mat img_line;
     if(img.channels() == 1)
-        cv::cvtColor(img, img_line, CV_GRAY2BGR);
+        cv::cvtColor(img, img_line, cv::ColorConversionCodes::COLOR_GRAY2BGR);
     else 
         img_line = img.clone();
     
@@ -200,12 +200,12 @@ cv::Mat DrawMatchesVertical(const cv::Mat& img1, const std::vector<cv::Vec4f>& l
     cv::Mat out = cv::Mat::zeros(img1.rows + img2.rows, max(img1.cols, img2.cols), CV_8UC3);
     cv::Mat img1_line, img2_line;
     if(img1.channels() == 1) 
-        cv::cvtColor(img1, img1_line, CV_GRAY2BGR);
+        cv::cvtColor(img1, img1_line, cv::ColorConversionCodes::COLOR_GRAY2BGR);
     else 
         img1_line = img1.clone();
 
     if(img2.channels() == 1)  
-        cv::cvtColor(img2, img2_line, CV_GRAY2BGR);
+        cv::cvtColor(img2, img2_line, cv::ColorConversionCodes::COLOR_GRAY2BGR);
     else 
         img2_line = img2.clone();
     cv::Point2f offset(0, img1.rows);
@@ -396,7 +396,7 @@ void SaveDepthImageRaw(const cv::Mat& depth_image, const string file_path)
         return ;
     }
     vector<int> compression_params;
-    compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+    compression_params.push_back(cv::IMWRITE_PNG_COMPRESSION);
     compression_params.push_back(0); // 无压缩png
     cv::imwrite(file_path, depth_16, compression_params);
     return ;
@@ -442,7 +442,7 @@ cv::Mat DrawKeyPoints(const cv::Mat& img, const std::vector<cv::KeyPoint>& keypo
 {
     cv::Mat out;
     if(img.channels() == 1)
-        cv::cvtColor(img, out, CV_GRAY2BGR);
+        cv::cvtColor(img, out, cv::ColorConversionCodes::COLOR_GRAY2BGR);
     else if(img.channels() == 3)
         out = img.clone();
     else 
@@ -474,7 +474,7 @@ cv::Mat DrawMatchesVertical(const cv::Mat& img1, const std::vector<cv::KeyPoint>
     if(img1.channels() == 1)
     {
         cv::Mat tmp;
-        cv::cvtColor(img1, tmp, CV_GRAY2BGR);
+        cv::cvtColor(img1, tmp, cv::ColorConversionCodes::COLOR_GRAY2BGR);
         tmp.copyTo(out.rowRange(0, img1.rows).colRange(0, img1.cols));
     }
     else 
@@ -482,7 +482,7 @@ cv::Mat DrawMatchesVertical(const cv::Mat& img1, const std::vector<cv::KeyPoint>
     if(img2.channels() == 1)
     {
         cv::Mat tmp;
-        cv::cvtColor(img2, tmp, CV_GRAY2BGR);
+        cv::cvtColor(img2, tmp, cv::ColorConversionCodes::COLOR_GRAY2BGR);
         tmp.copyTo(out.rowRange(img1.rows, img1.rows + img2.rows).colRange(0, img2.cols));
     }
     else 

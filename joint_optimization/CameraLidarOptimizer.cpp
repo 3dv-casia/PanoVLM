@@ -99,7 +99,7 @@ bool CameraLidarOptimizer::ExtractImageLines(string image_line_folder, bool visu
     vector<string> depth_image_names = IterateFiles(config.depth_path, ".bin");
     cv::Mat img_mask;
     if(!config.mask_path.empty())
-        img_mask = cv::imread(config.mask_path, CV_LOAD_IMAGE_GRAYSCALE);
+        img_mask = cv::imread(config.mask_path, cv::IMREAD_GRAYSCALE);
     ProcessBar bar(length, 0.2);
     omp_set_num_threads(5);
     #pragma omp parallel for schedule(dynamic)
@@ -461,7 +461,7 @@ int CameraLidarOptimizer::Optimize(const eigen_map<std::pair<size_t, size_t>, st
     // 固定三维空间点位置
     if(refine_structure == false)
     {
-        for(const PointTrack& track : structure)
+        for( PointTrack& track : structure)
             problem.SetParameterBlockConstant(track.point_3d.data());
     }
     // 固定相机位姿

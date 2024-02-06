@@ -32,7 +32,7 @@ std::vector<std::vector<int>> PlaneSegmentation(const pcl::PointCloud<pcl::Point
     }
 
     // 使用法向量进行区域生长分割
-    pcl::search::Search<pcl::PointXYZI>::Ptr tree = boost::shared_ptr<pcl::search::Search<pcl::PointXYZI> >(new pcl::search::KdTree<pcl::PointXYZI>);
+    pcl::search::Search<pcl::PointXYZI>::Ptr tree = std::shared_ptr<pcl::search::Search<pcl::PointXYZI> >(new pcl::search::KdTree<pcl::PointXYZI>);
     pcl::RegionGrowing<pcl::PointXYZI, pcl::Normal> reg;
     reg.setMinClusterSize(min_cluster_size);
     reg.setMaxClusterSize(max_cluster_size);
@@ -197,7 +197,7 @@ pcl::PointCloud<pcl::Normal> ComputeNormals(const pcl::PointCloud<pcl::PointXYZI
 
 pcl::PointCloud<pcl::Normal> ComputeNormals(const pcl::PointCloud<pcl::PointXYZI>::Ptr cloud, int k)
 {
-    pcl::search::Search<pcl::PointXYZI>::Ptr tree = boost::shared_ptr<pcl::search::Search<pcl::PointXYZI> >(new pcl::search::KdTree<pcl::PointXYZI>);
+    pcl::search::Search<pcl::PointXYZI>::Ptr tree = std::shared_ptr<pcl::search::Search<pcl::PointXYZI> >(new pcl::search::KdTree<pcl::PointXYZI>);
     pcl::PointCloud <pcl::Normal> normals;
     pcl::NormalEstimation<pcl::PointXYZI, pcl::Normal> normal_estimator;
     normal_estimator.setSearchMethod(tree);

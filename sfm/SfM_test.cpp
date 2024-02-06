@@ -324,8 +324,8 @@ bool SfM::test2()
 bool SfM::test_sift()
 {
     vector<string> image_names = IterateFiles(config.image_path, ".jpg");
-    cv::Mat mask = cv::imread(config.mask_path, CV_LOAD_IMAGE_GRAYSCALE);
-    cv::threshold(mask, mask, 0.1, 1, CV_THRESH_BINARY);
+    cv::Mat mask = cv::imread(config.mask_path, cv::IMREAD_GRAYSCALE);
+    cv::threshold(mask, mask, 0.1, 1, cv::THRESH_BINARY);
     set<int> ids = {3206, 3207, 3208, 3209, 3210, 3211, 3212};
     // 目前假设所有图像的分辨率都是相同的
     cv::Mat img = cv::imread(image_names[0]);
