@@ -32,6 +32,7 @@ Most of the MVS codes are adopted from [openMVS](https://github.com/cdcseacave/o
 ## Codes
 
 For the details of the codes, please refer to the [Tutorial](./Tutorial.md).
+We also provide a docker image for the codes. 
 
 ## Data Acquisition Device
 

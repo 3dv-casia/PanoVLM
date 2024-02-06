@@ -16,6 +16,30 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j8
 ```
 
+# Docker
+We provide a docker image for PanoVLM. The docker image is based on Ubuntu 23 + OpenCV 4.7 + PCL 1.13 + Boost 1.74. So the code is slightly different from the original version for compatibility. **CUDA is not supported in the docker image**. 
+1. Clone this repository
+```bash
+git clone git@github.com:3dv-casia/PanoVLM.git
+cd PanoVLM
+git checkout docker
+```
+2. Build the docker image
+```bash
+docker build -t panovlm .
+```
+3. Run the docker image
+```bash
+docker run -it -v /path_to_PanoVLM:/PanoVLM panovlm
+```
+4. Compile the code
+```bash
+cd /PanoVLM
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j8
+```
+
 # Run
 All of the configuration files are in `PanoVLM/config/`. You can modify the configuration files to run the code.
 Here, we use the Room dataset as an example.
